@@ -1,14 +1,20 @@
 # -*- mode: python ; coding: utf-8 -*-
+from pathlib import Path
+
 from PyInstaller.utils.hooks import collect_submodules
 from PyInstaller.utils.hooks import collect_all
 from PyInstaller.utils.hooks import copy_metadata
 
 datas = [('assets', 'assets'), ('web', 'web')]
+if Path('supabase.json').is_file():
+    datas.append(('supabase.json', '.'))
 binaries = []
 hiddenimports = ['keyring.backends.Windows']
 datas += copy_metadata('keyring')
 hiddenimports += collect_submodules('pygments.lexers')
-hiddenimports += collect_submodules('mcp')
+hiddenimports += collect_submodules(
+    'mcp', filter=lambda name: name != 'mcp.cli' and not name.startswith('mcp.cli.')
+)
 tmp_ret = collect_all('webview')
 datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
 tmp_ret = collect_all('customtkinter')
