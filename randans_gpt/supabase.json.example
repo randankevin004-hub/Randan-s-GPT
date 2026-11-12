@@ -1,0 +1,8 @@
+{
+  "url": "https://YOUR-PROJECT.supabase.co",
+  "anon_key": "YOUR_ANON_PUBLIC_KEY",
+  "require_login": true,
+  "terms_url": "https://randankevin004-hub.github.io/Randan-s-GPT/terms.html",
+  "privacy_url": "https://randankevin004-hub.github.io/Randan-s-GPT/privacy.html",
+  "updates_repo": "randankevin004-hub/Randan-s-GPT"
+}

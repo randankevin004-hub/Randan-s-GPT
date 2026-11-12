@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A private AI assistant for Windows. Run Ollama models locally, keep chats on your PC, and work offline after setup.">
+  <meta name="theme-color" content="#07100b">
+  <title>Randan's GPT - Your AI, on your PC</title>
+  <link rel="icon" href="brand-mark.svg" type="image/svg+xml">
+  <style>
+    :root { color-scheme: dark; --bg:#07100b; --panel:#101b14; --text:#f1f8f2; --muted:#a9b8ad; --green:#56e76b; --lime:#c8f248; --line:#25372a; font-family:Inter,"Segoe UI",system-ui,sans-serif; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--text); background:radial-gradient(ellipse at 75% 4%,#19351d 0,transparent 35rem),var(--bg); line-height:1.55; }
+    a { color:inherit; }
+    .wrap { width:min(1100px,calc(100% - 40px)); margin:auto; }
+    header { height:76px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #ffffff12; }
+    .brand { display:flex; align-items:center; gap:11px; text-decoration:none; font-weight:750; letter-spacing:-.03em; }
+    .brand img { width:35px; height:35px; border-radius:10px; }
+    nav { display:flex; gap:24px; color:var(--muted); font-size:14px; }
+    nav a { text-decoration:none; } nav a:hover { color:var(--green); }
+    .hero { display:grid; grid-template-columns:1fr 1.05fr; gap:55px; align-items:center; padding:76px 0 90px; }
+    .eyebrow { color:var(--green); font-size:12px; font-weight:750; letter-spacing:.15em; text-transform:uppercase; }
+    h1 { margin:14px 0 18px; font-size:clamp(42px,6vw,68px); line-height:1.02; letter-spacing:-.06em; }
+    h1 em { color:var(--green); font-style:normal; }
+    .lead { max-width:490px; color:var(--muted); font-size:18px; }
+    .buttons { display:flex; flex-wrap:wrap; gap:12px; margin:27px 0 15px; }
+    .btn { display:inline-flex; min-height:46px; align-items:center; justify-content:center; padding:0 19px; border:1px solid var(--line); border-radius:12px; text-decoration:none; font-weight:700; }
+    .btn.primary { color:#07100b; background:linear-gradient(120deg,var(--green),var(--lime)); border:0; }
+    .btn:not(.primary):hover { border-color:var(--green); }
+    .fine { color:#839589; font-size:12px; }
+    .preview { overflow:hidden; padding:10px; border:1px solid #ffffff1b; border-radius:21px; background:#0b130e; box-shadow:0 30px 90px #0008; }
+    .preview img { display:block; width:100%; height:auto; border-radius:13px; }
+    .caption { padding:8px 4px 1px; color:#8e9f93; font-size:11px; text-align:center; }
+    section { padding:60px 0; border-top:1px solid #ffffff12; }
+    h2 { margin:0 0 12px; font-size:clamp(29px,4vw,40px); letter-spacing:-.045em; }
+    .section-lead { max-width:680px; color:var(--muted); }
+    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; margin-top:27px; }
+    .card { padding:23px; border:1px solid var(--line); border-radius:16px; background:linear-gradient(150deg,#ffffff08,#ffffff02); }
+    .card .icon { color:var(--green); font-size:22px; }
+    h3 { margin:10px 0 7px; font-size:17px; }
+    .card p, li { color:var(--muted); font-size:14px; }
+    .privacy { display:grid; grid-template-columns:1fr 1fr; gap:35px; align-items:center; }
+    .promise { padding:28px; border:1px solid #4be76655; border-radius:18px; background:#102117; }
+    .promise b { display:block; margin-bottom:8px; color:var(--green); font-size:19px; }
+    ul { padding-left:19px; }
+    .requirements { display:grid; grid-template-columns:1fr 1fr; gap:30px; }
+    footer { display:flex; flex-wrap:wrap; gap:18px; justify-content:space-between; padding:25px 0 36px; border-top:1px solid #ffffff12; color:#95a69a; font-size:13px; }
+    footer a { text-decoration:none; } footer a:hover { color:var(--green); }
+    @media(max-width:760px) { .hero,.privacy,.requirements { grid-template-columns:1fr; gap:30px; } .hero { padding:55px 0; } .grid { grid-template-columns:1fr; } nav { gap:13px; font-size:12px; } }
+    @media(max-width:410px) { nav a:first-child { display:none; } }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <a class="brand" href="./"><img src="brand-mark.svg" alt=""><span>Randan's GPT</span></a>
+    <nav aria-label="Main navigation"><a href="#features">What it does</a><a href="#privacy">Privacy</a><a href="#requirements">Requirements</a><a href="terms.html">Terms</a></nav>
+  </header>
+  <main>
+    <div class="wrap hero">
+      <div>
+        <div class="eyebrow">Private by design · Windows desktop</div>
+        <h1>Your AI.<br><em>Your PC.</em></h1>
+        <p class="lead">A friendly AI assistant powered by local Ollama models. Your chats stay on your computer, with no subscription, and it works offline after setup and model downloads.</p>
+        <div class="buttons"><a class="btn primary" href="https://github.com/randankevin004-hub/Randan-s-GPT/releases/latest">Get the latest version</a><a class="btn" href="https://wa.me/254708063827" target="_blank" rel="noopener noreferrer">Chat with us on WhatsApp</a></div>
+        <p class="fine">Windows 10/11 · 64-bit · Ollama required · No installer is published yet</p>
+      </div>
+      <div class="preview"><img src="app-preview.svg" alt="Illustrative preview of the Randan's GPT chat window"><div class="caption">Illustrative interface preview. Replace with a real app capture before public launch.</div></div>
+    </div>
+
+    <section id="features">
+      <div class="wrap">
+        <div class="eyebrow">One desktop app</div><h2>Built for the way you think.</h2>
+        <p class="section-lead">Chat with models installed in Ollama, choose a role for the task, and keep your everyday AI workflow in one calm workspace.</p>
+        <div class="grid">
+          <article class="card"><div class="icon">✳</div><h3>Local AI chat</h3><p>Stream answers from your installed models, with Markdown, code highlighting, chat history and Auto model routing.</p></article>
+          <article class="card"><div class="icon">⌘</div><h3>Tools for every task</h3><p>Switch between coding, maths, writing, translation and more. Use reasoning, long-form research, templates and memory.</p></article>
+          <article class="card"><div class="icon">▣</div><h3>Preview generated websites</h3><p>See generated HTML, CSS, JavaScript and SVG beside the conversation. Inspect code and console output in a sandboxed preview.</p></article>
+          <article class="card"><div class="icon">◉</div><h3>Setup for your PC</h3><p>The first-run wizard checks hardware and recommends models based on your use case and speed-versus-quality preference.</p></article>
+          <article class="card"><div class="icon">☼</div><h3>Comfortable and adaptable</h3><p>Choose dark or light appearance, reduce effects for older computers, and export a chat as TXT or PDF.</p></article>
+          <article class="card"><div class="icon">⌁</div><h3>Offline after downloads</h3><p>Once Ollama and your chosen models are installed, chat locally without an ongoing internet connection.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="privacy">
+      <div class="wrap privacy">
+        <div><div class="eyebrow">A clear privacy promise</div><h2>Your conversations belong on your computer.</h2><p class="section-lead">Chats, memories and local files are stored on your PC. The app uses Supabase for account sign-in, Ollama to run models, and GitHub to check for releases. Optional MCP tools may send data to the tool provider you connect.</p></div>
+        <div class="promise"><b>No cloud chat processing</b><p>Randan's GPT sends prompts to the Ollama service on your PC, not to a hosted AI API. Sign-in data goes to Supabase; model files come from Ollama. Review the full details in our <a href="privacy.html">Privacy Policy</a>.</p></div>
+      </div>
+    </section>
+
+    <section id="requirements">
+      <div class="wrap">
+        <div class="eyebrow">Before you install</div><h2>What your PC needs.</h2>
+        <div class="requirements">
+          <div><h3>Minimum</h3><ul><li>Windows 10 or Windows 11, 64-bit</li><li>8 GB RAM; 16 GB recommended</li><li>Several GB of free disk space for models</li><li>Microsoft Edge WebView2 Runtime</li><li>Free Ollama app and downloaded models</li></ul></div>
+          <div><h3>For a smoother experience</h3><ul><li>More memory for larger models and longer chats</li><li>An NVIDIA GPU can improve model speed</li><li>Model sizes vary; the setup wizard checks available resources</li><li>Internet is needed for account sign-in, initial setup and model downloads</li></ul></div>
+        </div>
+        <p class="fine">The installer and current release are not available yet. Download links will be enabled after the first signed-off release.</p>
+      </div>
+    </section>
+  </main>
+  <footer class="wrap"><span>Randan's GPT · Windows desktop app</span><span><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="https://wa.me/254708063827" target="_blank" rel="noopener noreferrer">WhatsApp: +254 708 063 827</a> · <a href="https://github.com/randankevin004-hub/Randan-s-GPT">GitHub</a></span></footer>
+</body>
+</html>

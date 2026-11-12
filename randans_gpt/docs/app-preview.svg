@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 620" role="img" aria-labelledby="title desc">
+  <title id="title">Illustrative Randan's GPT chat window</title>
+  <desc id="desc">A dark desktop chat interface with a navigation rail, local model selector, and a response showing code.</desc>
+  <defs>
+    <linearGradient id="green" x2="1" y2="1"><stop stop-color="#3ddc57"/><stop offset="1" stop-color="#c6f135"/></linearGradient>
+    <linearGradient id="glow" x2="0" y2="1"><stop stop-color="#17351e"/><stop offset="1" stop-color="#0a100c"/></linearGradient>
+  </defs>
+  <rect width="980" height="620" rx="26" fill="#060a07"/>
+  <rect x="1" y="1" width="978" height="618" rx="25" fill="none" stroke="#304034"/>
+  <rect x="14" y="14" width="952" height="48" rx="17" fill="#111a13" stroke="#28352a"/>
+  <rect x="28" y="24" width="28" height="28" rx="9" fill="#07100b" stroke="url(#green)" stroke-width="2"/>
+  <path d="M37 46V30h7a5 5 0 0 1 0 10h-7m7 0 6 6" fill="none" stroke="url(#green)" stroke-width="2.6" stroke-linecap="round"/>
+  <text x="69" y="44" fill="#eaf4eb" font-family="Segoe UI, sans-serif" font-size="16" font-weight="700">Randan's GPT</text>
+  <rect x="397" y="23" width="193" height="30" rx="15" fill="#19231a" stroke="#344536"/>
+  <text x="426" y="43" fill="#d9e8dc" font-family="Segoe UI, sans-serif" font-size="13">Dashboard</text>
+  <rect x="489" y="26" width="94" height="24" rx="12" fill="#243127" stroke="#5bdb68"/>
+  <text x="503" y="43" fill="#f2faf2" font-family="Segoe UI, sans-serif" font-size="12">AI Chat</text>
+  <circle cx="909" cy="38" r="15" fill="url(#green)"/><text x="903" y="43" fill="#07100b" font-family="Segoe UI, sans-serif" font-size="13" font-weight="700">R</text>
+  <rect x="14" y="72" width="58" height="532" rx="19" fill="#111a13" stroke="#28352a"/>
+  <rect x="27" y="89" width="32" height="32" rx="12" fill="#1e3222" stroke="#5be46a"/>
+  <path d="M37 105h12M43 99v12" stroke="#7cf185" stroke-width="2" stroke-linecap="round"/>
+  <rect x="27" y="133" width="32" height="32" rx="12" fill="#19231a"/><text x="36" y="155" fill="#9caf9f" font-family="Segoe UI, sans-serif" font-size="15">⌘</text>
+  <rect x="27" y="177" width="32" height="32" rx="12" fill="#19231a"/><text x="36" y="199" fill="#9caf9f" font-family="Segoe UI, sans-serif" font-size="15">✎</text>
+  <rect x="27" y="545" width="32" height="32" rx="12" fill="#19231a"/><text x="36" y="567" fill="#9caf9f" font-family="Segoe UI, sans-serif" font-size="14">⚙</text>
+  <rect x="84" y="72" width="690" height="532" rx="22" fill="url(#glow)" stroke="#27362b"/>
+  <rect x="104" y="89" width="180" height="34" rx="17" fill="#18241a" stroke="#344536"/>
+  <circle cx="122" cy="106" r="8" fill="url(#green)"/><text x="138" y="111" fill="#e6f0e7" font-family="Segoe UI, sans-serif" font-size="13">Llama 3.2 1B</text><path d="m268 103 5 5 5-5" fill="none" stroke="#9eafa2"/>
+  <text x="125" y="174" fill="#f1f8f2" font-family="Segoe UI, sans-serif" font-size="21" font-weight="700">Help me build a simple landing page</text>
+  <rect x="491" y="193" width="251" height="43" rx="15" fill="#193120" stroke="#315c38"/>
+  <text x="510" y="220" fill="#e7f3e8" font-family="Segoe UI, sans-serif" font-size="14">Create a responsive HTML page with a hero.</text>
+  <circle cx="133" cy="275" r="13" fill="#19351e" stroke="#3b9949"/><path d="M128 275h10M133 270v10" stroke="#6fe878" stroke-width="1.5"/>
+  <text x="157" y="280" fill="#dce9de" font-family="Segoe UI, sans-serif" font-size="14">Here is a clean starting point. You can preview it alongside our chat:</text>
+  <rect x="157" y="302" width="564" height="196" rx="13" fill="#080d09" stroke="#29362c"/>
+  <rect x="157" y="302" width="564" height="32" rx="13" fill="#151d17"/>
+  <circle cx="174" cy="318" r="4" fill="#ff655d"/><circle cx="188" cy="318" r="4" fill="#e6c84c"/><circle cx="202" cy="318" r="4" fill="#57d665"/>
+  <text x="226" y="322" fill="#8fa293" font-family="Consolas, monospace" font-size="11">index.html</text>
+  <text x="177" y="358" fill="#7fa7ff" font-family="Consolas, monospace" font-size="12">&lt;main</text><text x="217" y="358" fill="#e4d391" font-family="Consolas, monospace" font-size="12"> class=</text><text x="267" y="358" fill="#b9e08e" font-family="Consolas, monospace" font-size="12">"hero"</text><text x="309" y="358" fill="#7fa7ff" font-family="Consolas, monospace" font-size="12">&gt;</text>
+  <text x="197" y="384" fill="#7fa7ff" font-family="Consolas, monospace" font-size="12">&lt;h1&gt;</text><text x="236" y="384" fill="#dbe8de" font-family="Consolas, monospace" font-size="12">Welcome to my site</text><text x="375" y="384" fill="#7fa7ff" font-family="Consolas, monospace" font-size="12">&lt;/h1&gt;</text>
+  <text x="197" y="410" fill="#7fa7ff" font-family="Consolas, monospace" font-size="12">&lt;p&gt;</text><text x="226" y="410" fill="#dbe8de" font-family="Consolas, monospace" font-size="12">A simple page, ready to customize.</text><text x="451" y="410" fill="#7fa7ff" font-family="Consolas, monospace" font-size="12">&lt;/p&gt;</text>
+  <text x="177" y="436" fill="#7fa7ff" font-family="Consolas, monospace" font-size="12">&lt;/main&gt;</text>
+  <rect x="104" y="531" width="650" height="52" rx="17" fill="#111a13" stroke="#344536"/>
+  <text x="130" y="562" fill="#829587" font-family="Segoe UI, sans-serif" font-size="14">Start your request, and let Randan's handle everything.</text>
+  <rect x="707" y="542" width="35" height="31" rx="11" fill="url(#green)"/><path d="M725 564v-14m-5 5 5-5 5 5" fill="none" stroke="#08100a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="788" y="72" width="178" height="532" rx="22" fill="#111a13" stroke="#28352a"/>
+  <text x="809" y="105" fill="#e8f1e9" font-family="Segoe UI, sans-serif" font-size="15" font-weight="700">History Chat</text>
+  <rect x="808" y="122" width="138" height="32" rx="16" fill="#1b2b1d" stroke="#38573b"/>
+  <text x="824" y="143" fill="#d7e8d9" font-family="Segoe UI, sans-serif" font-size="12">＋ New Chat</text>
+  <text x="810" y="181" fill="#7e9282" font-family="Segoe UI, sans-serif" font-size="11" letter-spacing="1">TODAY</text>
+  <rect x="802" y="192" width="150" height="38" rx="10" fill="#19251b"/><text x="814" y="216" fill="#e1ece2" font-family="Segoe UI, sans-serif" font-size="12">Landing page ideas</text>
+  <text x="814" y="255" fill="#a2b1a4" font-family="Segoe UI, sans-serif" font-size="12">Local AI models</text>
+  <text x="814" y="288" fill="#a2b1a4" font-family="Segoe UI, sans-serif" font-size="12">Explain a math problem</text>
+  <text x="810" y="329" fill="#7e9282" font-family="Segoe UI, sans-serif" font-size="11" letter-spacing="1">YESTERDAY</text>
+  <text x="814" y="360" fill="#a2b1a4" font-family="Segoe UI, sans-serif" font-size="12">Weekend writing plan</text>
+  <text x="814" y="394" fill="#a2b1a4" font-family="Segoe UI, sans-serif" font-size="12">Translate a short note</text>
+  <rect x="809" y="454" width="133" height="1" fill="#2a372d"/>
+  <text x="810" y="482" fill="#7e9282" font-family="Segoe UI, sans-serif" font-size="11">LOCAL MODEL</text>
+  <circle cx="817" cy="508" r="5" fill="#58df67"/><text x="831" y="512" fill="#b9c9bc" font-family="Segoe UI, sans-serif" font-size="11">Ollama is online</text>
+</svg>

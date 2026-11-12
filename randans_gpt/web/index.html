@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Randan's GPT</title>
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3ddc57"/><stop offset="1" stop-color="#c6f135"/></linearGradient></defs></svg>
+<div class="ambient" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<div id="app">
+  <!-- ============================ top bar ============================ -->
+  <header class="topbar">
+    <div class="brand" aria-label="Randan's GPT">
+      <svg viewBox="0 0 48 48" width="38" height="38" aria-hidden="true">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3ddc57"/><stop offset="1" stop-color="#c6f135"/></linearGradient></defs>
+        <rect x="1.5" y="1.5" width="45" height="45" rx="13" fill="none" stroke="url(#lg)" stroke-width="3"/>
+        <path d="M17 33V15h8.2a6 6 0 0 1 0 12H17m7.5 0L31 33" fill="none" stroke="url(#lg)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <nav class="seg glass" id="nav" aria-label="Main">
+      <i class="seg-ind"></i>
+      <button data-page="dashboard">Dashboard</button>
+      <button data-page="chat" class="on">AI Chat</button>
+      <button data-page="help">Help</button>
+      <button data-page="account">Account</button>
+    </nav>
+
+    <div class="spacer"></div>
+
+    <div class="top-actions glass">
+      <div class="seg compact" id="themeSeg" role="group" aria-label="Theme">
+        <i class="seg-ind"></i>
+        <button data-theme-btn="Light" aria-label="Light theme" data-tip="Light"><span data-icon="sun"></span></button>
+        <button data-theme-btn="Dark" aria-label="Dark theme" data-tip="Dark"><span data-icon="moon"></span></button>
+      </div>
+      <button class="icon-btn" id="btnHistory" aria-label="Toggle chat history" data-tip="History"><span data-icon="chat"></span></button>
+      <button class="icon-btn" id="btnBell" aria-label="Notifications" data-tip="Notifications"><span data-icon="bell"></span><b class="dot" id="bellDot" hidden></b></button>
+      <button class="avatar-btn" id="btnAvatar" aria-label="Your profile" data-tip="Profile"></button>
+    </div>
+  </header>
+
+  <!-- ============================== body ============================== -->
+  <main class="shell" id="shell">
+    <aside class="rail glass" id="rail" aria-label="Tools">
+      <div class="rail-top" id="railTools"></div>
+      <div class="rail-bottom">
+        <button class="icon-btn lg" id="btnSettings" aria-label="Settings" data-tip="Settings" data-tip-pos="right"><span data-icon="settings"></span></button>
+        <button class="icon-btn lg" id="btnLogout" aria-label="Log out" data-tip="Log out" data-tip-pos="right"><span data-icon="logout"></span></button>
+      </div>
+    </aside>
+
+    <section class="stage" id="stage">
+
+      <!-- ------------------------------- chat ------------------------------- -->
+      <div class="page card glass active" id="page-chat">
+        <div class="chat-head">
+          <button class="pill model-pill" id="modelPill" aria-haspopup="menu">
+            <span class="orb sm"><svg class="orb-ring r1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46"/></svg><i class="orb-core"></i></span>
+            <span id="modelLabel">Llama 3.2 1B</span><span data-icon="chevron" class="chev"></span>
+          </button>
+          <button class="pill chip-accent" id="modeChip" hidden></button>
+          <div class="spacer"></div>
+          <button class="icon-btn" id="btnMore" aria-label="Chat options" aria-haspopup="menu" data-tip="Chat options"><span data-icon="dots"></span></button>
+        </div>
+
+        <div class="chat-body" id="chatBody">
+        <div class="chat-col is-welcome" id="chatCol">
+          <div class="messages" id="messages"></div>
+
+          <div class="welcome" id="welcome">
+            <div class="orb"><i class="orb-glow"></i><svg class="orb-ring r1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46"/></svg><svg class="orb-ring r2" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46"/></svg><svg class="orb-ring r3" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46"/></svg><i class="orb-core"></i></div>
+            <h1 id="greeting">Good morning!</h1>
+            <p class="sub">Everything runs privately on your PC.</p>
+          </div>
+
+          <div class="composer-wrap">
+            <div class="composer glass" id="composer">
+              <div class="attach-row" id="attachRow" hidden></div>
+              <div class="input-row">
+                <span class="spark" data-icon="sparkle"></span>
+                <textarea id="input" rows="1" placeholder="Start your request, and let Randan's handle everything." aria-label="Message"></textarea>
+              </div>
+              <div class="composer-bar">
+                <button class="icon-btn" id="btnAttach" aria-label="Attach a file" data-tip="Attach a text or code file"><span data-icon="paperclip"></span></button>
+                <button class="icon-btn" id="btnNotes" aria-label="Prompt templates" data-tip="Prompt templates"><span data-icon="note"></span></button>
+                <button class="pill toggle" id="btnReason" aria-pressed="false" data-tip="Think step by step with DeepSeek R1"><span data-icon="bulb"></span><span class="lbl">Reasoning</span></button>
+                <button class="pill toggle" id="btnResearch" aria-pressed="false" data-tip="Long, structured, report-style answers"><span data-icon="compass"></span><span class="lbl">Deep Research</span></button>
+                <button class="pill toggle" id="btnTools" aria-pressed="false" data-tip="Let the model use your MCP tools (e.g. REA)"><span data-icon="plug"></span><span class="lbl">Tools</span></button>
+                <div class="spacer"></div>
+                <button class="icon-btn" id="btnMic" aria-label="Voice typing" data-tip="Voice typing"><span data-icon="mic"></span></button>
+                <button class="send" id="btnSend" aria-label="Send"><span data-icon="arrowup"></span></button>
+              </div>
+            </div>
+            <div class="starters" id="starters"></div>
+            <div class="hint" id="hint" role="status"></div>
+          </div>
+        </div>
+
+        <aside class="preview" id="preview" hidden aria-label="Live preview">
+          <div class="pv-head">
+            <div class="seg compact" id="pvTabs"><i class="seg-ind"></i><button data-tab="preview" class="on">Preview</button><button data-tab="code">Code</button><button data-tab="console">Console<b class="badge" id="pvBadge" hidden>0</b></button></div>
+            <div class="spacer"></div>
+            <div class="seg compact" id="pvDevices"><i class="seg-ind"></i><button data-dev="desktop" class="on" data-tip="Desktop"><span data-icon="monitor"></span></button><button data-dev="tablet" data-tip="Tablet"><span data-icon="tablet"></span></button><button data-dev="phone" data-tip="Phone"><span data-icon="phone"></span></button></div>
+            <button class="icon-btn" id="pvReload" aria-label="Reload preview" data-tip="Reload"><span data-icon="refresh"></span></button>
+            <button class="icon-btn" id="pvExternal" aria-label="Open in browser" data-tip="Open in browser"><span data-icon="external"></span></button>
+            <button class="icon-btn" id="pvSave" aria-label="Save as HTML" data-tip="Save as .html"><span data-icon="download"></span></button>
+            <button class="icon-btn" id="pvExpand" aria-label="Expand" data-tip="Expand"><span data-icon="expand"></span></button>
+            <button class="icon-btn" id="pvClose" aria-label="Close preview" data-tip="Close"><span data-icon="x"></span></button>
+          </div>
+          <div class="pv-body">
+            <div class="pv-pane on" data-pane="preview"><div class="pv-stage"><div class="pv-device" id="pvDevice"><iframe id="pvFrame" title="Preview" sandbox="allow-scripts allow-forms allow-modals allow-popups allow-pointer-lock"></iframe></div></div></div>
+            <div class="pv-pane" data-pane="code"><pre class="pv-code"><code id="pvCode"></code></pre></div>
+            <div class="pv-pane" data-pane="console"><div class="pv-console" id="pvConsole"><div class="empty">No console output yet.</div></div></div>
+          </div>
+        </aside>
+        </div>
+      </div>
+
+      <!-- ----------------------------- dashboard ---------------------------- -->
+      <div class="page card glass scroll" id="page-dashboard">
+        <div class="page-pad">
+          <h2 class="title">Dashboard</h2>
+          <p class="sub" id="dashSub">Here's your activity.</p>
+          <div class="stat-grid" id="statCards"></div>
+          <div class="two-col">
+            <div class="panel"><h3>Questions · last 7 days</h3><div class="bars" id="weekChart"></div></div>
+            <div class="panel"><h3>Model usage</h3><div id="modelBars" class="hbars"></div></div>
+          </div>
+          <p class="foot" id="ollamaState"></p>
+        </div>
+      </div>
+
+      <!-- -------------------------------- help ------------------------------ -->
+      <div class="page card glass scroll" id="page-help">
+        <div class="page-pad narrow" id="helpBody"></div>
+      </div>
+
+      <!-- ------------------------------ account ----------------------------- -->
+      <div class="page card glass scroll" id="page-account">
+        <div class="page-pad narrow center">
+          <h2 class="title">Account</h2>
+          <div class="big-avatar" id="accAvatar"></div>
+          <div class="row-btns">
+            <button class="btn" id="btnPhoto">Change photo</button>
+            <button class="btn ghost" id="btnPhotoRemove">Remove</button>
+          </div>
+          <p class="sub" id="accEmail"></p>
+          <label class="field"><span>Display name</span><input id="accName" maxlength="30" autocomplete="off"></label>
+          <button class="btn primary wide" id="btnSaveName">Save profile</button>
+          <p class="sub" id="accStats"></p>
+          <div class="row-btns">
+            <button class="btn" id="btnToSettings">Settings</button>
+            <button class="btn ghost danger-text" id="btnLogout2">Sign out</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ------------------------------ settings ---------------------------- -->
+      <div class="page card glass scroll" id="page-settings">
+        <div class="page-pad narrow">
+          <h2 class="title">Settings</h2>
+          <div class="group">
+            <div class="row"><div><b>Default model</b><small>Used when you start the app</small></div><select id="setDefaultModel" aria-label="Default model"></select></div>
+            <div class="row"><div><b>Start in Auto mode</b><small>Pick the best model for each question</small></div><button class="switch" id="setAuto" role="switch" aria-checked="false"><i></i></button></div>
+            <div class="row"><div><b>Theme</b><small>Dark or light appearance</small></div>
+              <div class="seg compact wide" id="setTheme"><i class="seg-ind"></i><button data-theme-btn="Dark">Dark</button><button data-theme-btn="Light">Light</button></div></div>
+            <div class="row"><div><b>Text size</b><small>Chat text size</small></div>
+              <div class="stepper"><button id="fontMinus" aria-label="Smaller">−</button><span id="fontVal">14</span><button id="fontPlus" aria-label="Larger">+</button></div></div>
+            <div class="row"><div><b>Memory</b><small>Remember facts you ask it to ("Remember that …")</small></div><button class="switch" id="setMemory" role="switch" aria-checked="false"><i></i></button></div>
+            <div class="row"><div><b>Reduce effects</b><small>Turns off blur and animation (helps older graphics)</small></div><button class="switch" id="setEffects" role="switch" aria-checked="false"><i></i></button></div>
+          </div>
+          <div class="group">
+            <div class="row"><div><b>Tool servers (MCP)</b><small>Connect tools such as REA, imported from Codex</small></div><button class="btn" id="btnManageTools">Manage…</button></div>
+            <div class="row"><div><b>Ask before running tools</b><small>Confirm each time the model wants to run a tool</small></div><button class="switch" id="setConfirm" role="switch" aria-checked="false"><i></i></button></div>
+          </div>
+          <div class="group">
+            <div class="row"><div><b>Models &amp; hardware</b><small id="setupSummary">Check this PC and pick the right AI models</small></div><button class="btn" id="btnRunSetup">Run setup again…</button></div>
+            <div class="row"><div><b>Open preview automatically</b><small>Show a live preview when the AI writes a web page</small></div><button class="switch" id="setPreview" role="switch" aria-checked="false"><i></i></button></div>
+          </div>
+          <div class="group">
+            <div class="row"><div><b>App updates</b><small id="updateStatus">Current version: …</small></div><button class="btn" id="btnCheckUpdates">Check for updates</button></div>
+          </div>
+          <div class="group-head"><h3>Saved memories</h3><button class="btn ghost danger-text sm" id="btnClearMem">Clear all</button></div>
+          <div class="group" id="memList"></div>
+        </div>
+      </div>
+
+      <!-- ------------------------------- tools ------------------------------ -->
+      <div class="page card glass scroll" id="page-tools">
+        <div class="page-pad narrow">
+          <h2 class="title">Tool servers</h2>
+          <p class="sub">MCP servers (like REA) give the model extra abilities. Import the ones you set up for Codex, switch on <b>Tools</b> in the chat, then ask for something the tools can do. Use a tool-capable model such as Qwen 2.5, Qwen3.5 or Llama 3.2.</p>
+          <div class="row-btns left">
+            <button class="btn primary" id="btnImport">Import from Codex</button>
+            <button class="btn" id="btnAddServer">Add server</button>
+            <button class="btn" id="btnConnect">Connect all</button>
+            <span class="sub inline" id="mcpMsg"></span>
+          </div>
+          <div id="mcpList" class="stack"></div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="history glass" id="history" aria-label="Chat history">
+      <div class="h-head"><h2>History Chat</h2><button class="pill sm" id="btnNew"><span data-icon="plus"></span>New Chat</button></div>
+      <div class="h-list" id="historyList"></div>
+    </aside>
+  </main>
+</div>
+
+<div class="overlay" id="auth" hidden><div class="auth-card" id="authCard"></div></div>
+<div class="overlay" id="onboard" hidden>
+  <div class="ob-card">
+    <div class="ob-top"><div class="ob-dots" id="obDots"></div><button class="btn ghost sm" id="obSkip">Skip for now</button></div>
+    <div class="ob-body" id="obBody"></div>
+    <div class="ob-foot"><button class="btn ghost" id="obBack">Back</button><div class="spacer"></div><button class="btn primary" id="obNext">Continue</button></div>
+  </div>
+</div>
+<div id="layer"></div>
+<div id="toasts" aria-live="polite"></div>
+
+<script src="js/icons.js"></script>
+<script src="js/markdown.js"></script>
+<script src="js/app.js"></script>
+<script src="js/preview.js"></script>
+<script src="js/onboard.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>
