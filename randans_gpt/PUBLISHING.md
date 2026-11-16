@@ -34,7 +34,7 @@ It installs per-user (no admin prompt), adds Start-menu / desktop shortcuts and 
 Edge WebView2 runtime if it is missing (already included in Windows 11).
 
 ## 4. Publish the website and legal pages
-The one-page landing page and short beta policies are in `docs/` (`index.html`, `terms.html`, `privacy.html`). The landing page's app-window artwork is an illustration, not a real capture; replace it with a screenshot of the tested build before wider public launch. The legal drafts identify the operator as Randan Kevin, provide WhatsApp contact at +254 708 063 827, and specify Kenya; they are not legal advice. Verify the account-deletion process before public distribution.
+The one-page landing page and short beta policies are in the repository-root `docs/` directory (`index.html`, `terms.html`, `privacy.html`), alongside this nested app project. The landing page's app-window artwork is an illustration, not a real capture; replace it with a screenshot of the tested build before wider public launch. The legal drafts identify the operator as Randan Kevin, provide WhatsApp contact at +254 708 063 827, and specify Kenya; they are not legal advice. Verify the account-deletion process before public distribution.
 
 Enable GitHub Pages in the `Randan-s-GPT` repository under **Settings → Pages**, selecting the `main` branch and `/docs` folder. The pages should be available at:
 * `https://randankevin004-hub.github.io/Randan-s-GPT/`
