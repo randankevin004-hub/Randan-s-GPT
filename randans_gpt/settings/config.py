@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 APP_NAME = "Randan's GPT"
-APP_VERSION = "1.1"
+APP_VERSION = "1.2"
 
 
 def app_data_dir() -> Path:
