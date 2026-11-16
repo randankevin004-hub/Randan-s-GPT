@@ -30,6 +30,10 @@
     .btn:not(.primary):hover { border-color:var(--green); }
     .fine { color:#839589; font-size:12px; }
     .download-status { min-height:1.55em; color:#a9b8ad; font-size:13px; }
+    .install-steps { padding-left:22px; color:var(--muted); }
+    .install-steps li { margin:10px 0; }
+    .command { overflow-wrap:anywhere; white-space:pre-wrap; margin:12px 0; padding:15px; border:1px solid var(--line); border-radius:12px; background:#050b07; color:var(--lime); }
+    .command code { font:14px/1.5 ui-monospace,Consolas,monospace; }
     .preview { overflow:hidden; padding:10px; border:1px solid #ffffff1b; border-radius:21px; background:#0b130e; box-shadow:0 30px 90px #0008; }
     .preview img { display:block; width:100%; height:auto; border-radius:13px; }
     .caption { padding:8px 4px 1px; color:#8e9f93; font-size:11px; text-align:center; }
@@ -55,7 +59,7 @@
 <body>
   <header class="wrap">
     <a class="brand" href="./"><img src="brand-mark.svg" alt=""><span>Randan's GPT</span></a>
-    <nav aria-label="Main navigation"><a href="#features">What it does</a><a href="#privacy">Privacy</a><a href="#requirements">Requirements</a><a href="terms.html">Terms</a></nav>
+    <nav aria-label="Main navigation"><a href="#ollama-install">Install Ollama</a><a href="#features">What it does</a><a href="#privacy">Privacy</a><a href="#requirements">Requirements</a><a href="terms.html">Terms</a></nav>
   </header>
   <main>
     <div class="wrap hero">
@@ -63,12 +67,28 @@
         <div class="eyebrow">Private by design · Windows desktop</div>
         <h1>Your AI.<br><em>Your PC.</em></h1>
         <p class="lead">A friendly AI assistant powered by local Ollama models. Your chats stay on your computer, with no subscription, and it works offline after setup and model downloads.</p>
-        <div class="buttons"><button class="btn primary" id="downloadButton" type="button" disabled>Checking for installer…</button><a class="btn" id="releaseLink" href="https://github.com/randankevin004-hub/Randan-s-GPT/releases">View releases</a><a class="btn" href="https://wa.me/254708063827" target="_blank" rel="noopener noreferrer">Chat with us on WhatsApp</a></div>
+        <div class="buttons"><button class="btn primary" id="downloadButton" type="button" disabled>Checking for installer…</button><a class="btn" href="https://wa.me/254708063827" target="_blank" rel="noopener noreferrer">Chat with us on WhatsApp</a></div>
         <p class="download-status" id="downloadStatus" role="status" aria-live="polite">Checking GitHub for a published Windows installer…</p>
         <p class="fine">Windows 10/11 · 64-bit · Ollama required · Beta software</p>
       </div>
       <div class="preview"><img src="app-preview.svg" alt="Illustrative preview of the Randan's GPT chat window"><div class="caption">Illustrative interface preview.</div></div>
     </div>
+
+    <section id="ollama-install">
+      <div class="wrap">
+        <div class="eyebrow">Required for local AI</div>
+        <h2>Install Ollama before chatting.</h2>
+        <p class="section-lead">Open Command Prompt from the Start menu, paste this command, and press Enter. It runs Ollama's PowerShell installer for you:</p>
+        <pre class="command"><code>powershell -NoProfile -Command "irm https://ollama.com/install.ps1 | iex"</code></pre>
+        <p class="section-lead">If you open PowerShell directly instead, paste this shorter version and press Enter:</p>
+        <pre class="command"><code>irm https://ollama.com/install.ps1 | iex</code></pre>
+        <ol class="install-steps">
+          <li>Wait for the installation to finish and follow any prompts.</li>
+          <li>Open Ollama, then return to Randan's GPT to choose and download a model.</li>
+        </ol>
+        <p class="fine">This downloads and runs the installer script from Ollama's official site. You can also get Ollama from <a href="https://ollama.com/download" target="_blank" rel="noopener noreferrer">ollama.com/download</a>.</p>
+      </div>
+    </section>
 
     <section id="features">
       <div class="wrap">
@@ -99,17 +119,15 @@
           <div><h3>Minimum</h3><ul><li>Windows 10 or Windows 11, 64-bit</li><li>8 GB RAM; 16 GB recommended</li><li>Several GB of free disk space for models</li><li>Microsoft Edge WebView2 Runtime</li><li>Free Ollama app and downloaded models</li></ul></div>
           <div><h3>For a smoother experience</h3><ul><li>More memory for larger models and longer chats</li><li>An NVIDIA GPU can improve model speed</li><li>Model sizes vary; the setup wizard checks available resources</li><li>Internet is needed for account sign-in, initial setup and model downloads</li></ul></div>
         </div>
-        <p class="fine">The Windows beta installer will be available here after it is attached to a GitHub release. Model downloads require additional disk space and an internet connection.</p>
+        <p class="fine">The download button above checks for a Windows installer on GitHub. Model downloads require additional disk space and an internet connection.</p>
       </div>
     </section>
   </main>
   <footer class="wrap"><span>Randan's GPT · Windows desktop app</span><span><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="https://wa.me/254708063827" target="_blank" rel="noopener noreferrer">WhatsApp: +254 708 063 827</a> · <a href="https://github.com/randankevin004-hub/Randan-s-GPT">GitHub</a></span></footer>
   <script>
     const repository = "randankevin004-hub/Randan-s-GPT";
-    const releaseListUrl = `https://github.com/${repository}/releases`;
     const downloadButton = document.getElementById("downloadButton");
     const downloadStatus = document.getElementById("downloadStatus");
-    const releaseLink = document.getElementById("releaseLink");
 
     async function configureDownload() {
       try {
@@ -132,14 +150,12 @@
         downloadButton.addEventListener("click", () => {
           window.location.assign(installer.browser_download_url);
         });
-        releaseLink.href = release.html_url;
         const sizeMb = (installer.size / (1024 * 1024)).toFixed(1);
         downloadStatus.textContent = `${release.tag_name} · ${sizeMb} MB · Beta installer is unsigned and may show a Windows SmartScreen warning.`;
       } catch (error) {
         downloadButton.textContent = "Download not verified";
-        downloadStatus.textContent = "Could not verify the latest installer. Visit GitHub releases to check availability.";
+        downloadStatus.textContent = "Could not verify the latest installer. Try again later.";
         console.error("Could not check GitHub releases:", error);
-        releaseLink.href = releaseListUrl;
       }
     }
 
