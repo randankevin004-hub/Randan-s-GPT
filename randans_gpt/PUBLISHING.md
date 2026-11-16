@@ -6,20 +6,24 @@
 2. Copy `supabase.json.example` to `supabase.json` and fill it in:
    ```json
    { "url": "https://abcd1234.supabase.co", "anon_key": "eyJ…", "require_login": true,
+     "email_redirect_url": "https://randankevin004-hub.github.io/Randan-s-GPT/auth-confirmed.html",
      "terms_url": "https://randankevin004-hub.github.io/Randan-s-GPT/terms.html",
      "privacy_url": "https://randankevin004-hub.github.io/Randan-s-GPT/privacy.html",
      "updates_repo": "randankevin004-hub/Randan-s-GPT" }
    ```
    `require_login: false` adds a "Continue without an account" button. Without `supabase.json` the app runs in local mode (no sign-in).
    The terms and privacy URLs assume GitHub Pages is enabled for the `docs/` folder of `randankevin004-hub/Randan-s-GPT`. Only the Supabase project URL and public anon key go in this file. Never include a service-role key.
-3. **Authentication → Providers → Email**: keep *Confirm email* ON, set *Minimum password length* to 8.
-4. **Authentication → Email Templates**: the app signs people in with a 6-digit code, so put `{{ .Token }}` in these templates
-   (for example: `Your Randan's GPT code is <b>{{ .Token }}</b>`):
-   *Confirm signup*, *Magic Link* (used for "Email me a code") and *Reset Password*.
-5. **Authentication → SMTP Settings**: Supabase's built-in email sender only allows a few emails per hour. If you want email/password confirmation, email codes, or password resets for testers, connect your own SMTP (Resend, Brevo, SendGrid, Gmail SMTP…). Google sign-in itself does not require SMTP. Optional: enable CAPTCHA protection in *Authentication → Attack Protection*.
-6. To enable **Google sign-in**, configure the OAuth consent screen in Google Cloud and create an OAuth client of type **Web application**. If the Google app is in Testing mode, add your testers as test users; publishing the consent screen may require Google's app verification. In the Google OAuth client, add the callback URL shown on Supabase's **Authentication → Providers → Google** page to **Authorized redirect URIs**. Copy its client ID and secret into that Supabase Google provider and enable the provider. In Supabase **Authentication → URL Configuration**, add this redirect URL:
-   `http://127.0.0.1:*/oauth/callback/*`
-   The desktop app launches the system browser and completes sign-in over a temporary loopback callback using PKCE. The Google callback stays on Supabase; only the Supabase project URL and public anon key ship with the app. Never put the Google client secret in the app or `supabase.json`.
+3. In **Authentication → URL Configuration**, set **Site URL** to
+   `https://randankevin004-hub.github.io/Randan-s-GPT/` and add this exact URL to **Redirect URLs**:
+   `https://randankevin004-hub.github.io/Randan-s-GPT/auth-confirmed.html`
+   Deploy `docs/auth-confirmed.html` to GitHub Pages before testing confirmation links.
+   Also keep `http://127.0.0.1:*/oauth/callback/*` in Redirect URLs for desktop Google sign-in. Confirmation emails already sent with the old localhost URL must be resent after changing these settings.
+4. **Authentication → Providers → Email**: keep *Confirm email* ON, set *Minimum password length* to 8.
+5. **Authentication → Email Templates**: signup confirmation can be a link using `{{ .ConfirmationURL }}`; the app redirects the confirmation link to the hosted page above. For passwordless email codes and password reset codes, put `{{ .Token }}` in the *Magic Link* and *Reset Password* templates (for example: `Your Randan's GPT code is <b>{{ .Token }}</b>`).
+6. **Authentication → SMTP Settings**: Supabase's built-in email sender only allows a few emails per hour. If you want email/password confirmation, email codes, or password resets for testers, connect your own SMTP (Resend, Brevo, SendGrid, Gmail SMTP…). Google sign-in itself does not require SMTP. Optional: enable CAPTCHA protection in *Authentication → Attack Protection*.
+7. To enable **Google sign-in**, configure the OAuth consent screen in Google Cloud and create an OAuth client of type **Web application**. If the Google app is in Testing mode, add your testers as test users; publishing the consent screen may require Google's app verification. In the Google OAuth client's **Authorized redirect URIs**, add the exact callback shown on Supabase's **Authentication → Providers → Google** page. For this app's current project, it is:
+   `https://seszcqbecuruqiybxzfr.supabase.co/auth/v1/callback`
+   Copy the client ID and secret into that Supabase Google provider and enable the provider. A Google page saying **“Access blocked: This app's request is invalid”** commonly means this callback is missing or does not exactly match the Google OAuth client's authorized redirect URI; check the error details for `redirect_uri_mismatch`. The desktop app launches the system browser and completes sign-in over a temporary loopback callback using PKCE. The Google callback stays on Supabase; only the Supabase project URL and public anon key ship with the app. Never put the Google client secret in the app or `supabase.json`.
 
 How it works: email + password, passwordless code, password reset by code. The sign-in token is kept in the Windows Credential Manager
 (never in a plain file). Each account gets its own private chat database in `%APPDATA%\RandansGPT\users\<id>\`.

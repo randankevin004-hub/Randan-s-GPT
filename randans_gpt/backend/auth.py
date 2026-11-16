@@ -35,6 +35,7 @@ from settings.config import app_data_dir, resource_path
 EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]{2,}$")
 OFFLINE_GRACE_DAYS = 14
 SERVICE = "RandansGPT"
+EMAIL_CONFIRM_REDIRECT = "https://randankevin004-hub.github.io/Randan-s-GPT/auth-confirmed.html"
 RATE_LIMIT_MESSAGE = "Too many attempts. Please wait a minute and try again."
 
 FRIENDLY = (
@@ -233,8 +234,10 @@ class SupabaseAuth:
     def sign_up(self, email: str, password: str, name: str = "") -> dict:
         try:
             self._validate(email, password)
+            redirect = self.config.get("email_redirect_url") or EMAIL_CONFIRM_REDIRECT
             data = self._call("POST", "/signup", {"email": email, "password": password,
-                                                  "data": {"display_name": name.strip()} if name.strip() else {}})
+                                                  "data": {"display_name": name.strip()} if name.strip() else {}},
+                              {"redirect_to": redirect})
             if data.get("access_token"):
                 return self._ok(self._apply(data))
             return {"ok": True, "needs_confirmation": True, "email": email}
@@ -351,7 +354,8 @@ class SupabaseAuth:
 
     def resend(self, email: str, kind: str = "signup") -> dict:
         try:
-            self._call("POST", "/resend", {"type": kind, "email": email.strip()})
+            redirect = self.config.get("email_redirect_url") or EMAIL_CONFIRM_REDIRECT
+            self._call("POST", "/resend", {"type": kind, "email": email.strip()}, {"redirect_to": redirect})
             return {"ok": True}
         except AuthError as exc:
             return self._fail(exc)
