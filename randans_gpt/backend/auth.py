@@ -35,6 +35,7 @@ from settings.config import app_data_dir, resource_path
 EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]{2,}$")
 OFFLINE_GRACE_DAYS = 14
 SERVICE = "RandansGPT"
+RATE_LIMIT_MESSAGE = "Too many attempts. Please wait a minute and try again."
 
 FRIENDLY = (
     ("invalid login credentials", "That email or password isn't right."),
@@ -44,7 +45,7 @@ FRIENDLY = (
     ("token has expired", "That code is wrong or has expired. Request a new one."),
     ("otp_expired", "That code is wrong or has expired. Request a new one."),
     ("invalid refresh token", "Your session expired. Please sign in again."),
-    ("rate limit", "Too many attempts. Please wait a minute and try again."),
+    ("rate limit", RATE_LIMIT_MESSAGE),
     ("password should be", None),                      # server text is already clear
     ("same password", "Choose a password you haven't used before."),
     ("signups not allowed", "New sign-ups are currently turned off."),
@@ -168,7 +169,7 @@ class SupabaseAuth:
         raw = " ".join(str(data.get(k, "")) for k in ("error_description", "msg", "message", "error", "error_code")).strip()
         low = raw.lower()
         if status == 429:
-            return AuthError(FRIENDLY[6][1], "rate_limit")
+            return AuthError(RATE_LIMIT_MESSAGE, "rate_limit")
         for needle, nice in FRIENDLY:
             if needle in low:
                 code = "email_not_confirmed" if "not confirmed" in low else "invalid" if status in (400, 401, 403) else "error"

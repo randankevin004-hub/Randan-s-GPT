@@ -49,7 +49,11 @@
             A.email = $('#aEmail').value.trim(); A.password = $('#aPw').value;
             const res = await api.auth_sign_in(A.email, A.password);
             if (res.ok) return U.afterAuth();
-            if (res.code === 'email_not_confirmed') { await api.auth_resend(A.email); return render('code', { kind: 'signup', note: 'Your email isn\'t confirmed yet. We sent you a fresh code.' }); }
+            if (res.code === 'email_not_confirmed') {
+              const resend = await api.auth_resend(A.email);
+              if (!resend.ok) return showErr(resend.error);
+              return render('code', { kind: 'signup', note: 'Your email isn\'t confirmed yet. We sent you a fresh code.' });
+            }
             showErr(res.error);
           });
           $('#aCode').onclick = e => busy(e.currentTarget, async () => {
