@@ -1,7 +1,7 @@
 ; Inno Setup script (https://jrsoftware.org/isinfo.php) - builds Output\RandansGPT-Setup.exe
 ; 1) run build_exe.bat   2) open this file in Inno Setup   3) press Compile
 #define AppName "Randan's GPT"
-#define AppVersion "1.0"
+#define AppVersion "1.1"
 #define AppExe "RandansGPT.exe"
 
 [Setup]
