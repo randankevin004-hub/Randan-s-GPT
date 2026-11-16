@@ -241,6 +241,9 @@ class Api:
     def auth_sign_in(self, email: str, password: str) -> dict:
         return self._after_auth(self._auth.sign_in(email, password))
 
+    def auth_google_sign_in(self) -> dict:
+        return self._after_auth(self._auth.sign_in_google())
+
     def auth_send_code(self, email: str) -> dict:
         return self._auth.send_code(email)
 

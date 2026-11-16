@@ -14,12 +14,19 @@ Security notes
 """
 from __future__ import annotations
 
+import base64
+import hashlib
+import html
 import json
 import logging
 import os
 import re
+import secrets
 import time
+import webbrowser
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from urllib.parse import parse_qs, urlencode, urlsplit
 
 import httpx
 
@@ -240,6 +247,87 @@ class SupabaseAuth:
                                                    {"grant_type": "password"})))
         except AuthError as exc:
             return self._fail(exc)
+
+    def sign_in_google(self) -> dict:
+        """Complete Supabase PKCE OAuth in the system browser with a loopback callback."""
+        if not self.configured:
+            return self._fail(AuthError("Google sign-in isn't configured for this app.", "not_configured"))
+
+        verifier = secrets.token_urlsafe(64)
+        challenge = (
+            base64.urlsafe_b64encode(hashlib.sha256(verifier.encode("ascii")).digest())
+            .rstrip(b"=")
+            .decode("ascii")
+        )
+        callback_path = "/oauth/callback/" + secrets.token_urlsafe(24)
+        result: dict = {}
+
+        class CallbackHandler(BaseHTTPRequestHandler):
+            def do_GET(self) -> None:
+                parsed = urlsplit(self.path)
+                if parsed.path != callback_path:
+                    self.send_error(404)
+                    return
+
+                params = parse_qs(parsed.query)
+                code = params.get("code", [""])[0]
+                if code:
+                    result["code"] = code
+                    message = "Sign-in complete. You can close this tab and return to Randan's GPT."
+                else:
+                    result["error"] = "Google sign-in wasn't completed. Return to Randan's GPT and try again."
+                    message = result["error"]
+                body = ("<!doctype html><meta charset=utf-8><title>Randan's GPT</title>"
+                        f"<p>{html.escape(message)}</p>").encode("utf-8")
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Content-Length", str(len(body)))
+                self.send_header("Cache-Control", "no-store")
+                self.send_header("X-Content-Type-Options", "nosniff")
+                self.send_header("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'")
+                self.end_headers()
+                self.wfile.write(body)
+
+            def log_message(self, format: str, *args: object) -> None:
+                return
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), CallbackHandler)
+        server.timeout = 1
+        callback_url = f"http://127.0.0.1:{server.server_address[1]}{callback_path}"
+        authorization_url = f"{self.config['url']}/auth/v1/authorize?" + urlencode({
+            "provider": "google",
+            "redirect_to": callback_url,
+            "code_challenge": challenge,
+            "code_challenge_method": "s256",
+        })
+
+        try:
+            if not webbrowser.open(authorization_url, new=1, autoraise=True):
+                return self._fail(AuthError("Couldn't open your browser for Google sign-in.", "browser"))
+            deadline = time.monotonic() + 180
+            while not result and time.monotonic() < deadline:
+                server.handle_request()
+            if "error" in result:
+                return self._fail(AuthError(result["error"], "oauth"))
+            if not result.get("code"):
+                return self._fail(AuthError("Google sign-in timed out. Please try again.", "timeout"))
+            session = self._call(
+                "POST",
+                "/token",
+                {"auth_code": result["code"], "code_verifier": verifier},
+                {"grant_type": "pkce"},
+            )
+            return self._ok(self._apply(session))
+        except AuthError as exc:
+            return self._fail(exc)
+        except webbrowser.Error as exc:
+            logging.info("Could not open browser for Google sign-in: %s", exc)
+            return self._fail(AuthError("Couldn't open your browser for Google sign-in.", "browser"))
+        except (OSError, httpx.HTTPError) as exc:
+            logging.info("Google sign-in failed: %s", exc)
+            return self._fail(AuthError("Google sign-in couldn't complete. Check your connection and try again.", "oauth"))
+        finally:
+            server.server_close()
 
     def send_code(self, email: str) -> dict:
         try:

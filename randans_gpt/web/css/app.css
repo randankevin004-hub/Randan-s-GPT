@@ -416,6 +416,9 @@ kbd { font: 600 11.5px var(--mono); padding: 2px 7px; border-radius: 6px; backgr
 .input input:focus { border-color: var(--accent-line); box-shadow: 0 0 0 4px var(--accent-soft); }
 .input .eye { position: absolute; right: 8px; width: 34px; height: 34px; border-radius: 50%; color: var(--text-3); display: grid; place-items: center; } .input .eye:hover { color: var(--text); background: var(--panel-2); } .input .eye svg { width: 17px; height: 17px; }
 .btn.block { width: 100%; height: 48px; font-size: 15px; border-radius: 16px; }
+.btn.google { gap: 10px; background: var(--solid); border-color: var(--stroke-2); color: var(--text); }
+.btn.google:hover { border-color: var(--accent-line); background: var(--panel-2); }
+.google-mark { font: 700 17px/1 Arial, sans-serif; color: #4285f4; }
 .btn.loading { pointer-events: none; opacity: .75; } .btn.loading::after { content: ""; display: inline-block; width: 14px; height: 14px; margin-left: 10px; vertical-align: -2px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; animation: spin .7s linear infinite; }
 .link-row { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; } .link { color: var(--accent); background: none; font-weight: 500; padding: 4px 2px; } .link:hover { text-decoration: underline; }
 .form-error { min-height: 20px; font-size: 13px; color: var(--danger); text-align: center; } .form-error.shake { animation: shake .4s; } .form-ok { color: var(--accent); }

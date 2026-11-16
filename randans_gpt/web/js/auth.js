@@ -6,6 +6,13 @@
 
   const field = (id, type, icon, ph, val = '', ac = '') => `<div class="input"><span class="ico">${ic(icon)}</span><input id="${id}" type="${type}" placeholder="${ph}" value="${esc(val)}" autocomplete="${ac}" spellcheck="false">${type === 'password' ? `<button type="button" class="eye" data-eye aria-label="Show password">${ic('eye')}</button>` : ''}</div>`;
   const head = (title, lead) => `${ORB}<h2>${title}</h2><p class="lead">${lead}</p>`;
+  const consentLinks = () => {
+    const legal = A.legal || {};
+    const terms = legal.terms ? `<a class="link" data-url="${esc(legal.terms)}">Terms</a>` : 'Terms';
+    const privacy = legal.privacy ? `<a class="link" data-url="${esc(legal.privacy)}">Privacy Policy</a>` : 'Privacy Policy';
+    return `By continuing with Google, you agree to our ${terms} and ${privacy}.`;
+  };
+  const bindLegalLinks = root => root.querySelectorAll('[data-url]').forEach(a => a.onclick = () => api.open_url(a.dataset.url));
   const err = () => $('#aErr');
   function showErr(msg, ok = false) { const e = err(); if (!e) return; e.textContent = msg || ''; e.className = 'form-error' + (ok ? ' form-ok' : ''); if (msg && !ok) { void e.offsetWidth; e.classList.add('shake'); } }
   async function busy(btn, fn) {
@@ -24,11 +31,20 @@
     signin() {
       const guest = !U.S.auth.required ? '<div class="divider">or</div><button class="btn block ghost" id="aGuest">Continue without an account</button>' : '';
       return { html: `${head('Welcome back', 'Sign in to your Randan\'s GPT account')}<div class="auth-form">
+        <button class="btn block google" id="aGoogle"><span class="google-mark" aria-hidden="true">G</span>Continue with Google</button>
+        <label class="check"><input type="checkbox" id="aGoogleTerms"><span>${consentLinks()}</span></label>
+        <div class="divider">or sign in with email</div>
         ${field('aEmail', 'email', 'atsign', 'Email address', A.email, 'email')}${field('aPw', 'password', 'lock', 'Password', '', 'current-password')}
         <div class="form-error" id="aErr"></div><button class="btn primary block" id="aGo">Sign in</button>
         <div class="link-row"><button class="link" data-go="reset">Forgot password?</button><button class="link" id="aCode">Email me a code instead</button></div>
         <div class="divider">New here?</div><button class="btn block" data-go="signup">Create an account</button>${guest}</div>`,
         bind(r) {
+          bindLegalLinks($('#authCard'));
+          $('#aGoogle').onclick = e => busy(e.currentTarget, async () => {
+            if (!$('#aGoogleTerms').checked) return showErr('Please accept the terms before continuing with Google.');
+            const res = await api.auth_google_sign_in();
+            if (res.ok) U.afterAuth(); else showErr(res.error);
+          });
           $('#aGo').onclick = e => busy(e.currentTarget, async () => {
             A.email = $('#aEmail').value.trim(); A.password = $('#aPw').value;
             const res = await api.auth_sign_in(A.email, A.password);
@@ -51,10 +67,16 @@
         <div class="strength" id="aStr"><i></i><i></i><i></i><i></i></div>
         <label class="check"><input type="checkbox" id="aTerms"><span>${terms}</span></label>
         <div class="form-error" id="aErr"></div><button class="btn primary block" id="aGo">Create account</button>
+        <button class="btn block google" id="aGoogle"><span class="google-mark" aria-hidden="true">G</span>Continue with Google</button>
         <div class="link-row" style="justify-content:center">Already have an account?&nbsp;<button class="link" data-go="signin">Sign in</button></div></div>`,
         bind() {
           $('#aPw').oninput = e => { $('#aStr').className = 'strength s' + strength(e.target.value); };
-          $('#authCard').querySelectorAll('[data-url]').forEach(a => a.onclick = () => api.open_url(a.dataset.url));
+          bindLegalLinks($('#authCard'));
+          $('#aGoogle').onclick = e => busy(e.currentTarget, async () => {
+            if (!$('#aTerms').checked) return showErr('Please accept the terms before continuing with Google.');
+            const res = await api.auth_google_sign_in();
+            if (res.ok) U.afterAuth(); else showErr(res.error);
+          });
           $('#aGo').onclick = e => busy(e.currentTarget, async () => {
             A.email = $('#aEmail').value.trim(); A.password = $('#aPw').value;
             if (!$('#aTerms').checked) return showErr('Please accept the terms to continue.');

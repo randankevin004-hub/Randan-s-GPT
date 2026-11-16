@@ -16,8 +16,10 @@
 4. **Authentication → Email Templates**: the app signs people in with a 6-digit code, so put `{{ .Token }}` in these templates
    (for example: `Your Randan's GPT code is <b>{{ .Token }}</b>`):
    *Confirm signup*, *Magic Link* (used for "Email me a code") and *Reset Password*.
-5. **Authentication → SMTP Settings**: Supabase's built-in email sender only allows a few emails per hour. Before launch connect your own SMTP
-   (Resend, Brevo, SendGrid, Gmail SMTP…). Optional: enable CAPTCHA protection in *Authentication → Attack Protection*.
+5. **Authentication → SMTP Settings**: Supabase's built-in email sender only allows a few emails per hour. If you want email/password confirmation, email codes, or password resets for testers, connect your own SMTP (Resend, Brevo, SendGrid, Gmail SMTP…). Google sign-in itself does not require SMTP. Optional: enable CAPTCHA protection in *Authentication → Attack Protection*.
+6. To enable **Google sign-in**, configure the OAuth consent screen in Google Cloud and create an OAuth client of type **Web application**. If the Google app is in Testing mode, add your testers as test users; publishing the consent screen may require Google's app verification. In the Google OAuth client, add the callback URL shown on Supabase's **Authentication → Providers → Google** page to **Authorized redirect URIs**. Copy its client ID and secret into that Supabase Google provider and enable the provider. In Supabase **Authentication → URL Configuration**, add this redirect URL:
+   `http://127.0.0.1:*/oauth/callback/*`
+   The desktop app launches the system browser and completes sign-in over a temporary loopback callback using PKCE. The Google callback stays on Supabase; only the Supabase project URL and public anon key ship with the app. Never put the Google client secret in the app or `supabase.json`.
 
 How it works: email + password, passwordless code, password reset by code. The sign-in token is kept in the Windows Credential Manager
 (never in a plain file). Each account gets its own private chat database in `%APPDATA%\RandansGPT\users\<id>\`.

@@ -22,7 +22,7 @@ start any web server. `python main.py --classic` runs the older Tk interface as 
 - Apple-style glass interface (dark + light), bundled Inter font, smooth animations, "Reduce effects" switch for older GPUs
 - **Setup wizard:** checks the PC (RAM, CPU, graphics, free disk), asks what you'll use it for (coding, studying, writing, maths, languages)
   and installs the models that run well on it, with live download progress. Re-run it from Settings.
-- **Accounts:** sign up / sign in with Supabase (email + password, passwordless code, password reset). Each account has its own private data.
+- **Accounts:** sign up / sign in with Supabase (Google OAuth, email + password, passwordless code, password reset). Each account has its own private data.
 - **Live preview:** when the AI writes a web page, it opens beside the chat (Preview / Code / Console, desktop / tablet / phone sizes, save as .html).
   Runs in a sandbox, so generated code can't touch your chats or files.
 - **Pages:** Dashboard, AI Chat, Help (+ About), Account, Settings, Tool servers
